@@ -164,7 +164,7 @@ namespace :autolab do
 
   def load_auds course
     # delete grader's AUDs (create_AUDs_module_callbacks insists on creating them)
-    AssessmentUserDatum.delete_all(:course_user_datum_id => @grader_cud.id)
+    AssessmentUserDatum.where(:course_user_datum_id => @grader_cud.id).delete_all
 
     course.assessments.each do |asmt|
       # create all auds
