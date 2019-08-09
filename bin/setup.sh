@@ -167,6 +167,12 @@ db_setup() {
     sudo apt-get -y -qq install mysql-server
 
     printf "${_orange}Your randomly-generated root password for MySQL server is: %s. Please keep the password in a safe place for future use.${_reset}\n" $PSWD_REMINDER
+        cat << EOF > /etc/mysql/my.cnf
+[mysqld]
+sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+EOF
+
+    service mysql restart
     read -n1 -rsp $'Press any key to continue the installation...\n'
 }
 
@@ -181,17 +187,12 @@ rails_setup() {
 
 ## Section Six: Initialize Autolab configs
 autolab_setup() {
-    cat << EOF > /etc/mysql/my.cnf
-[mysqld]
-sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
-EOF
 
-    service mysql restart
     cd $AUTOLAB_PATH
-    USE='yuzu'
+    
     log "Initializing Autolab configurations..."
     cp $AUTOLAB_PATH/config/database.yml.template $AUTOLAB_PATH/config/database.yml
-    sed -i "s/<username>/$USE/g" $AUTOLAB_PATH/config/database.yml
+    sed -i "s/<username>/$USER/g" $AUTOLAB_PATH/config/database.yml
 
     cp $AUTOLAB_PATH/config/school.yml.template $AUTOLAB_PATH/config/school.yml
 
@@ -202,9 +203,9 @@ EOF
     
     
     log "Granting MySQL database permissions..."
-    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USE""_autolab_development.* TO '$USE'@'%' IDENTIFIED BY '<password>'"
-    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USE""_autolab_test.* TO '$USE'@'%' IDENTIFIED BY '<password>'"
-    warn "Your MySQL server password for \`$USE\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
+    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_development.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
+    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_test.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
+    warn "Your MySQL server password for \`$USER\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
 }
 
 ## Section Seven: Autolab database initialization
