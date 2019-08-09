@@ -108,7 +108,7 @@ environment_setup() {
     if [[ -d "$AUTOLAB_PATH" ]]; then
         confirm "Directoy ~/Autolab already exists... Do you want to overwrite it?" && rm -rf ~/Autolab
         fi
-    git clone https://github.com/autolab/Autolab.git ~/Autolab
+     git clone -b rails-5-upgrade https://github.com/leileimiao/Autolab.git ~/Autolab
 }
 
 ## Section Two: Set up Rbenv and ruby-build plugin
@@ -194,10 +194,10 @@ autolab_setup() {
 
     cp $AUTOLAB_PATH/config/autogradeConfig.rb.template $AUTOLAB_PATH/config/autogradeConfig.rb
 
-    log "Granting MySQL database permissions..."
-    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_development.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
-    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_test.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
-    warn "Your MySQL server password for \`$USER\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
+    #log "Granting MySQL database permissions..."
+    #mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_development.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
+    #mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_test.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
+    #warn "Your MySQL server password for \`$USER\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
 }
 
 ## Section Seven: Autolab database initialization
@@ -208,6 +208,14 @@ autolab_init() {
     bundle exec rake db:create
     bundle exec rake db:reset
     bundle exec rake db:migrate
+}
+
+update_populate() {
+    log "reinstall populate"
+
+    rm -rf ~/.rbenv/versions/2.6.1/lib/ruby/gems/2.6.0/gems/populator-1.0.0
+        
+    git clone https://github.com/leileimiao/populator.git ~/.rbenv/versions/2.6.1/lib/ruby/gems/2.6.0/gems/populator-1.0.0
 }
 
 ## Section Eight: Populate samples courses & students
@@ -247,6 +255,7 @@ db_setup
 rails_setup
 autolab_setup
 autolab_init
+update_populate
 autolab_populate
 congrats
 
