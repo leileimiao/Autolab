@@ -182,10 +182,10 @@ rails_setup() {
 ## Section Six: Initialize Autolab configs
 autolab_setup() {
     cd $AUTOLAB_PATH
-
+    USE='yuzu'
     log "Initializing Autolab configurations..."
     cp $AUTOLAB_PATH/config/database.yml.template $AUTOLAB_PATH/config/database.yml
-    sed -i "s/<username>/$USER/g" $AUTOLAB_PATH/config/database.yml
+    sed -i "s/<username>/$USE/g" $AUTOLAB_PATH/config/database.yml
 
     cp $AUTOLAB_PATH/config/school.yml.template $AUTOLAB_PATH/config/school.yml
 
@@ -193,11 +193,12 @@ autolab_setup() {
     sed -i "s/<YOUR-SECRET-KEY>/`bundle exec rake secret`/g" $AUTOLAB_PATH/config/initializers/devise.rb
 
     cp $AUTOLAB_PATH/config/autogradeConfig.rb.template $AUTOLAB_PATH/config/autogradeConfig.rb
-
-    #log "Granting MySQL database permissions..."
-    #mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_development.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
-    #mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USER""_autolab_test.* TO '$USER'@'%' IDENTIFIED BY '<password>'"
-    #warn "Your MySQL server password for \`$USER\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
+    
+    
+    log "Granting MySQL database permissions..."
+    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USE""_autolab_development.* TO '$USE'@'%' IDENTIFIED BY '<password>'"
+    mysql -uroot -p$MYSQL_ROOT_PSWD -e "GRANT ALL PRIVILEGES ON ""$USE""_autolab_test.* TO '$USE'@'%' IDENTIFIED BY '<password>'"
+    warn "Your MySQL server password for \`$USE\` appears in ~/Autolab/config/database.yml in clear text. Make sure to change the default password and protect the file!"
 }
 
 ## Section Seven: Autolab database initialization
