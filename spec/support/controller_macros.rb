@@ -71,9 +71,12 @@ module ControllerMacros
     att = Attachment.new(course_id: cid, assessment_id: nil,
                          name: "att#{cid}",
                          released: true)
-    att.file = Rack::Test::UploadedFile.new(
-      filename: File.basename(course_att_file), type: "text/plain",
-      tempfile: Tempfile.new("attach.tmp"))
+    #att.file = Rack::Test::UploadedFile.new(
+    #  filename: File.basename(course_att_file), type: "text/plain",
+    #  tempfile: Tempfile.new("attach.tmp"))
+    #filename: 'example.csv', type: 'text/csv', tempfile: File.new("#{Rails.root}/spec/files/example.csv")
+    #Rails.root + 'spec/files/example.csv', 'example.csv' 
+    att.file = Rack::Test::UploadedFile.new(Tempfile.new("attach.tmp"),File.basename(course_att_file))
     att.save
     att
   end
