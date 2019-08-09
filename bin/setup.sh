@@ -102,7 +102,7 @@ environment_setup() {
     log "Upgrading system packages and installing prerequisites..."
     sudo apt-get -y -qq update 
     sudo apt-get -y -qq upgrade
-    sudo apt-get -y -qq install build-essential git libffi-dev zlib1g-dev autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev libncurses5-dev libgdbm3 libgdbm-dev libmysqlclient-dev
+    sudo apt-get -y -qq install build-essential git libffi-dev zlib1g-dev autoconf bison build-essential libssl-dev libyaml-dev libreadline6-dev libncurses5-dev libgdbm5 libgdbm-dev libmysqlclient-dev
 
     log "Cloning Autolab repo from Github to ~/Autolab..."
     if [[ -d "$AUTOLAB_PATH" ]]; then
