@@ -54,7 +54,7 @@
 
             <div class="collection red darken-4">
               <% asmts.each do |asmt| %>
-                <%= link_to course_assessment_url(@course, asmt),
+                <%= link_to course_assessment_path(@course, asmt),
                     :class => "collection-item grey-text text-darken-4" do %>
                   <%= asmt.display_name %>
                   <% if !asmt.released? %>
