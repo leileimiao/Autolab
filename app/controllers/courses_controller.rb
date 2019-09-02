@@ -678,9 +678,10 @@ private
     convertedRoster = Array.new(numRows) { Array.new(11) }
 
     if (Rails.env == "production")
-       domain="andrew.cmu.edu"
+       #domain="andrew.cmu.edu"
+       domain="autolab.pku.edu.cn"
     else
-       domain="foo.bar"
+       domain="autolab.pku.edu.cn"
     end
     for i in 0..(numRows - 1)
       for j in 0..10

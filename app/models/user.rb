@@ -61,7 +61,7 @@ class User < ApplicationRecord
 
   # Reset user fields with LDAP lookup
   def ldap_reset
-    return unless email.include? "@andrew.cmu.edu"
+    return unless email.include? "@pku.edu.cn"
 
     ldap_result = User.ldap_lookup(email.split("@")[0])
     if ldap_result
@@ -176,6 +176,7 @@ class User < ApplicationRecord
   end
 
   # use LDAP to look up a user
+  # this is not used in pku 
   def self.ldap_lookup(andrewID)
     return unless andrewID
     require "rubygems"

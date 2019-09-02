@@ -76,7 +76,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           @user.email = data["uid"]
 
           # Set user info based on LDAP lookup
-          if @user.email.include? "@andrew.cmu.edu"
+          if @user.email.include? "@pku.edu.cn"
             ldapResult = User.ldap_lookup(@user.email.split("@")[0])
             if ldapResult
               @user.first_name = ldapResult[:first_name]
