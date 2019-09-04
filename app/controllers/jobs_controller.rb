@@ -249,7 +249,7 @@ protected
       end
     else
       job[:state] = "Completed"
-      job[:state] = "Failed" if rjob["trace"][-1].split("|")[1].include? "Error"
+      job[:state] = "Failed" if rjob["trace"][-1].split("|")[1].include?("Error")
     end
 
     job

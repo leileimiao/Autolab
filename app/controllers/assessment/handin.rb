@@ -227,10 +227,11 @@ module AssessmentHandin
     if !@assessment
       err = "ERROR: Invalid Assessment (#{params[:id]}) for course #{@course.id}"
       render(plain: err, status: :bad_request) && return
-    elsif !@assessment.allow_unofficial
-      err = "ERROR: This assessment does not allow Log Submissions"
-      render(plain: err, status: :bad_request) && return
+    #elsif !@assessment.allow_unofficial
+    #   err = "(#{@course.name})ERROR: This assessment does not allow Log Submissions"
+    # render(plain: err, status: :bad_request) && return
     end
+
 
     @result = params[:result]
     render(plain: "ERROR: No result!", status: :bad_request) && return unless @result

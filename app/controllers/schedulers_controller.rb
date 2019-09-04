@@ -48,8 +48,11 @@ class SchedulersController < ApplicationController
       action = Scheduler.find(params[:scheduler_id])
       @log = "Executing #{Rails.root.join(action.action)}\n"
       mod_name = Rails.root.join(action.action)
+     
       begin
+        
         require mod_name
+        @log << ("Excuting! \n")
         Updater.update(action.course)
       rescue ScriptError, StandardError => e
         @log << ("Error in '#{@course.name}' updater: #{e.message}\n")
